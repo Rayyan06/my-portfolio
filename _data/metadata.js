@@ -1,6 +1,6 @@
 export default {
 	title: "My Projects",
-	url: "https://rayyan.github.io/my-portfolio/",
+	url: "https://rayyan06.github.io/my-portfolio/",
 	language: "en",
 	description: "A portfolio of my DIY electronics projects.",
 	author: {
