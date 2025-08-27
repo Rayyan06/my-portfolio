@@ -1,7 +1,7 @@
 ---
 layout: 'base.njk'
 title: 'DIY Rotary Optical Encoder'
-tags: 'post'
+tags: 'posts'
 ---
 
 ### The Challenge: Knowing Your Motor's Position
