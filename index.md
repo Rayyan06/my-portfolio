@@ -1,17 +1,18 @@
 ---
-subject: World
+layout: 'base.njk'
+title: 'Home'
 ---
 
-# Hello {{ subject }}
+## My Projects
 
-You can type here!
+Here are some of the projects I've been working on.
 
-- [Markdown](https://www.11ty.dev/docs/languages/markdown/)
-- [Liquid](https://www.11ty.dev/docs/languages/liquid/)
-
-## Posts
-
-{%- for post in collections.posts %}
-
-- [{{ post.data.title }}]({{ post.url }})
-  {%- endfor %}
+<ul>
+{%- for post in collections.post -%}
+  <li>
+    <a href="{{ post.url }}">
+      {{ post.data.title }}
+    </a>
+  </li>
+{%- endfor -%}
+</ul>
