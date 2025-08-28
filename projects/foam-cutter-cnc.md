@@ -9,7 +9,7 @@ date: '2025-07-15'
 <!-- Intro Paragraph -->
 
 <p class="text-xl text-slate-600 leading-relaxed">
-For anyone in the RC aircraft hobby, creating precise wing airfoils is a major challenge. To solve this, I designed and built a 4-axis hot-wire CNC machine capable of cutting complex, tapered wing sections from XPS foam blocks with high accuracy.
+CNC machines can be used for a wide variety of applications. One of these applications is a CNC machine to cut foam. I designed and built a 4-axis hot-wire CNC machine capable of cutting complex, tapered wing sections from foam blocks with high accuracy.
 </p>
 
 <!-- Featured Image -->

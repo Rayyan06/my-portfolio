@@ -29,6 +29,7 @@ export default function (eleventyConfig) {
   });
 
   eleventyConfig.addPlugin(pluginSyntaxHighlight);
+  eleventyConfig.addPassthroughCopy('img');
 
   const processor = postcss([
     //compile tailwind

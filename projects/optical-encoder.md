@@ -6,13 +6,15 @@ description: 'A deep dive into building a high-resolution optical encoder from s
 date: '2025-08-27'
 ---
 
+<!-- Heading -->
+<h1 class="text-4xl text-slate-600 font-bold">3D printed Optical Encoder</h1>
 <!-- Intro Paragraph -->
 
 <p class="text-xl text-slate-600 leading-relaxed">
-  For many robotics projects, knowing a motor's exact position is critical.
-  Commercial encoders can be costly, so I set out to build my own
-  high-resolution optical encoder using simple components and an Arduino to get
-  precise feedback on a DC motor's position and speed.
+  For many robotics & data analysis projects, knowing the exact angularr position of a shaft is critical.
+  I found that the commercially available encoders on the market were quite costly, so I set out to build my own
+  high-resolution optical encoder using simple 3D printed components and an AVR microcontroller to get
+  precise feedback on shafts position and speed. This project aims to capture, analyze, and display position and time data from an encoder via an intuitive GUI, featuring real-time charts and graphs
 </p>
 
 <!-- Featured Image -->
@@ -24,7 +26,7 @@ date: '2025-08-27'
     class="rounded-lg shadow-lg w-full"
   />
   <figcaption class="text-center text-sm text-slate-500 mt-3">
-    The completed optical encoder mounted on a test rig.
+    The (incomplete) optical encoder mounted on a test rig.
   </figcaption>
 </figure>
 
@@ -38,9 +40,9 @@ date: '2025-08-27'
     Here's a quick rundown of the project's technical details.
   </p>
   <ul class="mt-6 list-disc list-inside space-y-2 text-lg text-slate-700">
-    <li><strong>Resolution:</strong> 100 pulses per revolution (PPR)</li>
+    <li><strong>Resolution:</strong> 72 pulses per revolution (PPR)</li>
     <li>
-      <strong>Sensing Method:</strong> Quadrature encoding with two infrared
+      <strong>Sensing Method:</strong> Quadrature encoding with two infrared LED
       (IR) sensors
     </li>
     <li><strong>Microcontroller:</strong> Arduino Uno</li>
@@ -49,34 +51,34 @@ date: '2025-08-27'
       direction
     </li>
     <li>
-      <strong>Key Components:</strong> TCRT5000 IR sensors, salvaged encoder
-      disk, 5V DC motor
+      <strong>Key Components:</strong> GP1093HCZ IR sensors, 3D printed high resolution encoder
+      disk
     </li>
   </ul>
 </div>
 
 <hr class="my-12 border-slate-200" />
 
-<!-- Section: Build Process -->
+<!-- Section: System Overview -->
 
 <div>
   <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
-    The Build Process
+    System Overview
   </h2>
   <p class="mt-4 text-lg text-slate-600">
     The core of this project is a slotted wheel (the encoder disk) that spins
     with the motor shaft. As the wheel spins, the slots alternately block and
     pass light from an IR LED to a phototransistor, creating a sequence of
-    electrical pulses.
+    electrical pulses. These pulses are processed by the AVR microcontroller and sent as  
   </p>
   <figure class="mt-8">
     <img
-      src="https://www.google.com/search?q=https://placehold.co/800x450/e2e8f0/334155%3Ftext%3DBuild%2BProcess%2BPhoto"
-      alt="Encoder disk and sensors"
+      src="/img/encoder-opdiagram.png"
+      alt="Encoder process diagram"
       class="rounded-lg shadow-lg w-full"
     />
     <figcaption class="text-center text-sm text-slate-500 mt-3">
-      Close-up of the salvaged encoder disk and the TCRT5000 sensor alignment.
+      System Illustration of the Data generation and processing
     </figcaption>
   </figure>
   <p class="mt-8 text-lg text-slate-600">
@@ -95,11 +97,18 @@ date: '2025-08-27'
     Code & Schematics
   </h2>
   <p class="mt-4 text-lg text-slate-600">
-    The logic is handled by the Arduino. I wrote a small program that uses
-    pin-change interrupts to monitor channels A and B. This ensures no pulses
-    are missed, even at high speeds.
+    The custom encoder schematic is seen in fig. 1 below
   </p>
-
+  <figure class="mt-8">
+    <img
+      src="/img/encoder-opdiagram.png"
+      alt="Encoder process diagram"
+      class="rounded-lg shadow-lg w-full"
+    />
+    <figcaption class="text-center text-sm text-slate-500 mt-3">
+      System Illustration of the Data generation and processing
+    </figcaption>
+  </figure>
 ```cpp
 // Define pins for Encoder channels A and B
 const int channelA_pin = 2;
@@ -139,6 +148,7 @@ position_counter++;
 position_counter--;
 }
 }
+
 ```
 
 </div>
@@ -162,3 +172,4 @@ position_counter--;
     designing a small PCB to make the sensor mounting more rigid and reliable.
   </p>
 </div>
+```
