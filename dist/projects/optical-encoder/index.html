@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIY Rotary Optical Encoder | Your Name</title>
+    
+    <!-- This is the link to your compiled Tailwind CSS file -->
+    <link rel="stylesheet" href="/assets/styles/index.css">
+    
+    <!-- Google Fonts for a clean, modern typeface -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism-okaidia.css" rel="stylesheet">
+
+    
+    <style>
+        /* Apply the Inter font family to the whole site */
+        body { 
+            font-family: 'Inter', sans-serif; 
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Header & Navigation Bar -->
+    <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="flex justify-between items-center py-4">
+                <a href="/" class="text-xl font-bold text-slate-900 hover:text-indigo-600 transition-colors">
+                    M.R.K.
+                </a>
+                <nav class="hidden md:flex space-x-8 text-slate-600">
+                    <a href="/#projects" class="hover:text-indigo-600 transition-colors">Projects</a>
+                    <!-- You can add more links here later, e.g., an "About" page -->
+                    <a href="/about/" class="hover:text-indigo-600 transition-colors">About</a>
+                </nav>
+                <!-- Mobile menu button can be added here if needed -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-5xl mx-auto px-6 py-12 md:py-16">
+        <!-- The content from your .md files (like index.md) will be injected here -->
+        <!-- Intro Paragraph -->
+<p class="text-xl text-slate-600 leading-relaxed">
+  For many robotics projects, knowing a motor's exact position is critical.
+  Commercial encoders can be costly, so I set out to build my own
+  high-resolution optical encoder using simple components and an Arduino to get
+  precise feedback on a DC motor's position and speed.
+</p>
+<!-- Featured Image -->
+<figure class="mt-8">
+  <img
+    src="https://www.google.com/search?q=https://placehold.co/800x450/e2e8f0/334155%3Ftext%3DFinished%2BProject%2BPhoto"
+    alt="DIY Optical Encoder"
+    class="rounded-lg shadow-lg w-full"
+  />
+  <figcaption class="text-center text-sm text-slate-500 mt-3">
+    The completed optical encoder mounted on a test rig.
+  </figcaption>
+</figure>
+<!-- Section: Key Features -->
+<div class="mt-12">
+  <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+    Key Features & Specifications
+  </h2>
+  <p class="mt-4 text-lg text-slate-600">
+    Here's a quick rundown of the project's technical details.
+  </p>
+  <ul class="mt-6 list-disc list-inside space-y-2 text-lg text-slate-700">
+    <li><strong>Resolution:</strong> 100 pulses per revolution (PPR)</li>
+    <li>
+      <strong>Sensing Method:</strong> Quadrature encoding with two infrared
+      (IR) sensors
+    </li>
+    <li><strong>Microcontroller:</strong> Arduino Uno</li>
+    <li>
+      <strong>Output:</strong> Serial data providing real-time position and
+      direction
+    </li>
+    <li>
+      <strong>Key Components:</strong> TCRT5000 IR sensors, salvaged encoder
+      disk, 5V DC motor
+    </li>
+  </ul>
+</div>
+<hr class="my-12 border-slate-200" />
+<!-- Section: Build Process -->
+<div>
+  <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+    The Build Process
+  </h2>
+  <p class="mt-4 text-lg text-slate-600">
+    The core of this project is a slotted wheel (the encoder disk) that spins
+    with the motor shaft. As the wheel spins, the slots alternately block and
+    pass light from an IR LED to a phototransistor, creating a sequence of
+    electrical pulses.
+  </p>
+  <figure class="mt-8">
+    <img
+      src="https://www.google.com/search?q=https://placehold.co/800x450/e2e8f0/334155%3Ftext%3DBuild%2BProcess%2BPhoto"
+      alt="Encoder disk and sensors"
+      class="rounded-lg shadow-lg w-full"
+    />
+    <figcaption class="text-center text-sm text-slate-500 mt-3">
+      Close-up of the salvaged encoder disk and the TCRT5000 sensor alignment.
+    </figcaption>
+  </figure>
+  <p class="mt-8 text-lg text-slate-600">
+    By using two sensors slightly offset from each other (Channels A and B), I
+    can not only count the pulses to measure speed but also determine the
+    direction of rotation by seeing which channel's pulse comes first.
+  </p>
+</div>
+<hr class="my-12 border-slate-200" />
+<!-- Section: Code -->
+<div>
+  <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+    Code & Schematics
+  </h2>
+  <p class="mt-4 text-lg text-slate-600">
+    The logic is handled by the Arduino. I wrote a small program that uses
+    pin-change interrupts to monitor channels A and B. This ensures no pulses
+    are missed, even at high speeds.
+  </p>
+<pre class="language-cpp"><code class="language-cpp"><span class="token comment">// Define pins for Encoder channels A and B</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> channelA_pin <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> channelB_pin <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Variable to store the motor's position</span>
+<span class="token keyword">volatile</span> <span class="token keyword">long</span> position_counter <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">volatile</span> byte channelA_state<span class="token punctuation">;</span>
+<span class="token keyword">volatile</span> byte channelB_state<span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+Serial<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token number">9600</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">pinMode</span><span class="token punctuation">(</span>channelA_pin<span class="token punctuation">,</span> INPUT_PULLUP<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">pinMode</span><span class="token punctuation">(</span>channelB_pin<span class="token punctuation">,</span> INPUT_PULLUP<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Attach interrupts to both pins, calling on any state change</span>
+<span class="token function">attachInterrupt</span><span class="token punctuation">(</span><span class="token function">digitalPinToInterrupt</span><span class="token punctuation">(</span>channelA_pin<span class="token punctuation">)</span><span class="token punctuation">,</span> handleEncode<span class="token punctuation">,</span> CHANGE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">attachInterrupt</span><span class="token punctuation">(</span><span class="token function">digitalPinToInterrupt</span><span class="token punctuation">(</span>channelB_pin<span class="token punctuation">)</span><span class="token punctuation">,</span> handleEncode<span class="token punctuation">,</span> CHANGE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+Serial<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Motor Position: "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>position_counter<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">handleEncode</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment">// Read the current state of the pins</span>
+channelA_state <span class="token operator">=</span> <span class="token function">digitalRead</span><span class="token punctuation">(</span>channelA_pin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+channelB_state <span class="token operator">=</span> <span class="token function">digitalRead</span><span class="token punctuation">(</span>channelB_pin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// A simple but effective logic for direction</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>channelA_state <span class="token operator">==</span> channelB_state<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+position_counter<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+position_counter<span class="token operator">--</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+</div>
+<hr class="my-12 border-slate-200" />
+<!-- Section: Conclusion -->
+<div>
+  <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+    Challenges & Conclusion
+  </h2>
+  <p class="mt-4 text-lg text-slate-600">
+    This was a successful proof-of-concept! The encoder is surprisingly accurate
+    for being made from salvaged parts. The biggest challenge was aligning the
+    IR sensors perfectly with the slots on the disk.
+  </p>
+  <p class="mt-4 text-lg text-slate-600">
+    The next step is to integrate this into a proper PID control loop to command
+    the motor to move to and hold specific angular positions. I also plan on
+    designing a small PCB to make the sensor mounting more rigid and reliable.
+  </p>
+</div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 border-t border-slate-200">
+        <div class="max-w-5xl mx-auto px-6 py-8 text-center text-slate-500">
+            <p>&copy; 2025 M. Rayyan Khan. All Rights Reserved.</p>
+            <!-- Add social media links here if you want -->
+        </div>
+    </footer>
+
+</body>
+</html>
